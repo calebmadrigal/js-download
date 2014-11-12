@@ -10,59 +10,7 @@ self||"undefined"!==typeof window&&window||this.content);"undefined"!==typeof mo
 
 <script>
 /*! @source https://github.com/danguer/blog-examples/blob/master/js/base64-binary.js */
-var Base64Binary = {
-  _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-  
-  /* will return a  Uint8Array type */
-  decodeArrayBuffer: function(input) {
-    var bytes = (input.length/4) * 3;
-    var ab = new ArrayBuffer(bytes);
-    this.decode(input, ab);
-    
-    return ab;
-  },
-  
-  decode: function(input, arrayBuffer) {
-    //get last chars to see if are valid
-    var lkey1 = this._keyStr.indexOf(input.charAt(input.length-1));    
-    var lkey2 = this._keyStr.indexOf(input.charAt(input.length-2));    
-  
-    var bytes = (input.length/4) * 3;
-    if (lkey1 == 64) bytes--; //padding chars, so skip
-    if (lkey2 == 64) bytes--; //padding chars, so skip
-    
-    var uarray;
-    var chr1, chr2, chr3;
-    var enc1, enc2, enc3, enc4;
-    var i = 0;
-    var j = 0;
-    
-    if (arrayBuffer)
-      uarray = new Uint8Array(arrayBuffer);
-    else
-      uarray = new Uint8Array(bytes);
-    
-    input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-    
-    for (i=0; i<bytes; i+=3) {  
-      //get the 3 octects in 4 ascii chars
-      enc1 = this._keyStr.indexOf(input.charAt(j++));
-      enc2 = this._keyStr.indexOf(input.charAt(j++));
-      enc3 = this._keyStr.indexOf(input.charAt(j++));
-      enc4 = this._keyStr.indexOf(input.charAt(j++));
-  
-      chr1 = (enc1 << 2) | (enc2 >> 4);
-      chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-      chr3 = ((enc3 & 3) << 6) | enc4;
-  
-      uarray[i] = chr1;     
-      if (enc3 != 64) uarray[i+1] = chr2;
-      if (enc4 != 64) uarray[i+2] = chr3;
-    }
-  
-    return uarray;  
-  }
-} 
+var Base64Binary={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",decodeArrayBuffer:function(a){var b=3*(a.length/4),c=new ArrayBuffer(b);return this.decode(a,c),c},decode:function(a,b){var c=this._keyStr.indexOf(a.charAt(a.length-1)),d=this._keyStr.indexOf(a.charAt(a.length-2)),e=3*(a.length/4);64==c&&e--,64==d&&e--;var f,g,h,i,j,k,l,m,n=0,o=0;for(f=b?new Uint8Array(b):new Uint8Array(e),a=a.replace(/[^A-Za-z0-9\+\/\=]/g,""),n=0;e>n;n+=3)j=this._keyStr.indexOf(a.charAt(o++)),k=this._keyStr.indexOf(a.charAt(o++)),l=this._keyStr.indexOf(a.charAt(o++)),m=this._keyStr.indexOf(a.charAt(o++)),g=j<<2|k>>4,h=(15&k)<<4|l>>2,i=(3&l)<<6|m,f[n]=g,64!=l&&(f[n+1]=h),64!=m&&(f[n+2]=i);return f}};
 </script>
 
 <script>
